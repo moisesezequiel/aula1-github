@@ -44,6 +44,7 @@ public class Program {
 
 		double valorDeposito = sc.nextDouble();
 		conta.depositar(valorDeposito);
+		System.out.println("DEPOSITO EFETUADO COM SUCESSO");
 		
 		System.out.println("Conta atualizada ");
 		System.out.println(conta);
