@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import TratamentoDeErros.exercicioHotel.exceptions.DomainException;
+
 public class Reserva {
 
 	private Integer numeroQuarto;
@@ -16,8 +18,10 @@ public class Reserva {
 		
 	}
 
-	public Reserva(Integer numeroQuarto, Date checkIn, Date checkOut) {
-		super();
+	public Reserva(Integer numeroQuarto, Date checkIn, Date checkOut) throws DomainException {
+		if (!checkOut.after(checkIn)) {
+			throw new DomainException( "A DATA DE CHECK OUT DEVE SER DEPOIS DA DATA DE CHECK IN ");
+		}
 		this.numeroQuarto = numeroQuarto;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -46,18 +50,18 @@ public class Reserva {
 		//RETORNA O VALOR DE MILI-SEGUNDOS CONVERTIDO EM DIAS
 		 return TimeUnit.DAYS.convert(diferenca, TimeUnit.MICROSECONDS);
 	}
-	public String atualizarDatas(Date checkIn, Date checkOut){
+	public void atualizarDatas(Date checkIn, Date checkOut) throws DomainException{
 		Date agora = new Date();
 		if (checkIn .before(agora) || checkOut.before(agora)) {
-			return "ERRO NA RESERVA  A DATA DA RESERVA DEVE SER COM DATAS FUTURAS ";
+			throw new DomainException( "ERRO NA RESERVA  A DATA DA RESERVA DEVE SER COM DATAS FUTURAS ");
 			
-		}if (!checkOut.after(checkIn)) {
-			return "A DATA DE CHECK OUT DEVE SER DEPOIS DA DATA DE CHECK IN ";
+		}
+		if (!checkOut.after(checkIn)) {
+			throw new DomainException( "A DATA DE CHECK OUT DEVE SER DEPOIS DA DATA DE CHECK IN ");
 		}
 				
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		return null;
 	}
 	
 	@Override
