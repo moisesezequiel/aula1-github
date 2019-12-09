@@ -46,9 +46,18 @@ public class Reserva {
 		//RETORNA O VALOR DE MILI-SEGUNDOS CONVERTIDO EM DIAS
 		 return TimeUnit.DAYS.convert(diferenca, TimeUnit.MICROSECONDS);
 	}
-	public void atualizarDatas(Date checkIn, Date checkOut){
+	public String atualizarDatas(Date checkIn, Date checkOut){
+		Date agora = new Date();
+		if (checkIn .before(agora) || checkOut.before(agora)) {
+			return "ERRO NA RESERVA  A DATA DA RESERVA DEVE SER COM DATAS FUTURAS ";
+			
+		}if (!checkOut.after(checkIn)) {
+			return "A DATA DE CHECK OUT DEVE SER DEPOIS DA DATA DE CHECK IN ";
+		}
+				
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		return null;
 	}
 	
 	@Override
